@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>node-push-cluster js sdk</title>
+</head>
+<body>
+<script src="../src/npc.js"></script>
+<script>
+	(function () {
+		client = npc.connect('ws://localhost:5223');
+
+		client.on('connect', function () {
+			this.subscribe('test');
+			this.publish('test', 'hello');
+		});
+
+		client.on('message', function (channel, data) {
+			console.log(data);
+		});
+
+		client.on('error', function (e) {
+			console.log(e);
+		});
+
+		client.on('close', function (code, reason) {
+			console.log(code, reason);
+		});
+	})();
+</script>
+</body>
+</html>
